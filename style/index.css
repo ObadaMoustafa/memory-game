@@ -87,9 +87,10 @@ body {
   font-size: 2.5rem;
   transition: transform 0.3s, background-color 0.3s;
   user-select: none;
+  overflow: hidden;
 }
 
-.card span {
+.card img {
   opacity: 0;
   transition: opacity 0.2s;
   display: flex;
@@ -97,10 +98,12 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  pointer-events: none; /* Prevents image dragging */
 }
 
-.card.flipped span,
-.card.matched span {
+.card.flipped img,
+.card.matched img {
   opacity: 1;
 }
 .card.flipped {

@@ -1,5 +1,5 @@
-import { BASE_SCORE, EMOJIS, INITIAL_TIME } from "./constants.js";
-import { disableCards, unflipCards, updateUI } from "./ui.js";
+import { BASE_SCORE, INITIAL_TIME, TOTAL_CARDS } from "./constants.js";
+import { disableCards, unflipCards, updateInfo } from "./ui.js";
 
 let firstCard = null,
   secondCard = null,
@@ -15,7 +15,7 @@ export function startTimer() {
     elapsedSeconds++;
     remainingSeconds--;
 
-    updateUI(moves, elapsedSeconds, remainingSeconds);
+    updateInfo(moves, elapsedSeconds, remainingSeconds);
 
     if (remainingSeconds <= 0) {
       stopGame(false);
@@ -42,7 +42,7 @@ export function flipCard() {
 
   secondCard = this;
   moves++;
-  updateUI(moves, elapsedSeconds, remainingSeconds);
+  updateInfo(moves, elapsedSeconds, remainingSeconds);
   checkForMatch();
 }
 
@@ -54,7 +54,7 @@ function checkForMatch() {
     disableCards(firstCard, secondCard);
     resetState();
 
-    if (matches === EMOJIS.length) {
+    if (matches === TOTAL_CARDS) {
       stopGame(true);
     }
   } else {
@@ -78,7 +78,7 @@ function stopGame(win) {
 
   if (win) {
     const finalScore = calculateScore();
-    updateUI(moves, elapsedSeconds, remainingSeconds, finalScore);
+    updateInfo(moves, elapsedSeconds, remainingSeconds, finalScore);
 
     // TODO: Replace alert with a better UI element in future
     alert(`You Win! Score: ${finalScore}`);
@@ -99,5 +99,5 @@ export function resetGame() {
   remainingSeconds = INITIAL_TIME;
   lockBoard = false;
   clearInterval(timerInterval);
-  updateUI(0, 0, INITIAL_TIME);
+  updateInfo(0, 0, INITIAL_TIME);
 }

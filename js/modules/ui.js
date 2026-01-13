@@ -6,17 +6,17 @@ const remainingDisplay = document.getElementById("remaining-time");
 const scoreDisplay = document.getElementById("score");
 const board = document.getElementById("game-board");
 
-export function updateUI(moves, elapsed, remaining, score = 0) {
+export function updateInfo(moves, elapsed, remaining, score = 0) {
   movesDisplay.textContent = moves;
   elapsedDisplay.textContent = formatTime(elapsed);
   remainingDisplay.textContent = formatTime(remaining);
   scoreDisplay.textContent = score;
 }
 
-export function generateCard(imgUrl, flipHandler) {
+export function generateCard(idx, imgUrl, flipHandler) {
   const card = document.createElement("div");
-  card.classList.add("card", "card-animation");
-  card.dataset.name = imgUrl;
+  card.classList.add("card");
+  card.dataset.name = idx;
   card.innerHTML = `<img src="${imgUrl}" alt="card">`;
   card.addEventListener("click", flipHandler);
   board.appendChild(card);
