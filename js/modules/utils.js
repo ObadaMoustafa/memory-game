@@ -70,8 +70,6 @@ export async function getRequest(endpoint) {
     }
 
     if (!response.ok) {
-      console.log(response);
-
       throw new Error(
         `HTTP error! status: ${response.statusText} code: ${response.status}`
       );

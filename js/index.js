@@ -41,17 +41,17 @@ function setButtons() {
 export async function initGame() {
   // Fetch images from API
   // todo: uncomment on production.
-  // const imageUrls = await fetchCards(TOTAL_CARDS);
-  // if (imageUrls.length === 0) {
-  //   alert(
-  //     "Failed to load images. Please check your internet connection or try disabling ad-blockers."
-  //   );
-  //   return;
-  // }
+  const imageUrls = await fetchCards(TOTAL_CARDS);
+  if (imageUrls.length === 0) {
+    alert(
+      'Failed to load images. Please check your internet connection or try disabling ad-blockers.'
+    );
+    return;
+  }
 
   // Create pairs and shuffle
   // todo: imageUrl on production.
-  const gameCards = shuffle([...EMOJIS, ...EMOJIS]);
+  const gameCards = shuffle([...imageUrls, ...imageUrls]);
 
   // Render cards one by one with delay
   for (const photo of gameCards) {
@@ -64,8 +64,6 @@ export async function initGame() {
   // At last to avoid showing memory game slowly.
   const data = await getRequest('memory/top-scores');
   renderLeaderboard(data);
-  const prefs = await getRequest('player/preferences');
-  console.log(prefs);
 }
 
 // Check for authentication token

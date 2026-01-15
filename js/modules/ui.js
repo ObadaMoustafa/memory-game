@@ -31,6 +31,10 @@ export function disableMatchedCards(c1, c2) {
   const color_found = localStorage.getItem('color_found');
   c1.style.backgroundColor = color_found;
   c2.style.backgroundColor = color_found;
+
+  c1.getElementsByTagName('img')[0].style.transform = 'scale(.8)';
+  c2.getElementsByTagName('img')[0].style.transform = 'scale(.8)';
+
   c1.classList.add('matched');
   c2.classList.add('matched');
 }
