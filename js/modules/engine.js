@@ -1,6 +1,16 @@
-import { BASE_SCORE, INITIAL_TIME, TOTAL_CARDS } from "./constants.js";
-import { disableCards, unflipCards, updateInfo } from "./ui.js";
+import { initGame } from '../index.js';
+import { INITIAL_TIME, TOTAL_CARDS } from './constants.js';
+import {
+  disableMatchedCards,
+  showResultModal,
+  unFlipCards,
+  updateInfo,
+  renderLeaderboard,
+  clearBoard,
+} from './ui.js';
+import { formatTime, fetchPerform } from './utils.js';
 
+// Game info variables
 let firstCard = null,
   secondCard = null,
   lockBoard = false,
@@ -10,6 +20,7 @@ let firstCard = null,
   remainingSeconds = INITIAL_TIME,
   timerInterval = null;
 
+// Game logic
 export function startTimer() {
   timerInterval = setInterval(() => {
     elapsedSeconds++;
@@ -28,12 +39,12 @@ export function flipCard() {
   if (
     lockBoard ||
     this === firstCard ||
-    this.classList.contains("matched") ||
-    this.classList.contains("flipped")
+    this.classList.contains('matched') ||
+    this.classList.contains('flipped')
   )
     return;
 
-  this.classList.add("flipped");
+  this.classList.add('flipped');
 
   if (!firstCard) {
     firstCard = this;
@@ -46,12 +57,18 @@ export function flipCard() {
   checkForMatch();
 }
 
+function resetState() {
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+}
+
 function checkForMatch() {
   const isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
   if (isMatch) {
     matches++;
-    disableCards(firstCard, secondCard);
+    disableMatchedCards(firstCard, secondCard);
     resetState();
 
     if (matches === TOTAL_CARDS) {
@@ -59,7 +76,7 @@ function checkForMatch() {
     }
   } else {
     lockBoard = true;
-    unflipCards(firstCard, secondCard, () => {
+    unFlipCards(firstCard, secondCard, () => {
       resetState();
       lockBoard = false;
     });
@@ -67,37 +84,38 @@ function checkForMatch() {
 }
 
 function calculateScore() {
-  const timePenalty = elapsedSeconds * 2;
-  const movePenalty = moves * 5;
-  return Math.max(0, BASE_SCORE - timePenalty - movePenalty);
+  const timeWeight = 2;
+  const moveWeight = 5;
+  return elapsedSeconds * timeWeight + moves * moveWeight;
 }
 
-function stopGame(win) {
+async function stopGame(win) {
   clearInterval(timerInterval);
   lockBoard = true;
 
   if (win) {
     const finalScore = calculateScore();
-    updateInfo(moves, elapsedSeconds, remainingSeconds, finalScore);
+    const timeTaken = formatTime(elapsedSeconds);
 
-    // TODO: Replace alert with a better UI element in future
-    alert(`You Win! Score: ${finalScore}`);
+    // Send score to Symfony Backend
+    await fetchPerform('game/save', 'POST', {
+      id: localStorage.getItem('userId'),
+      score: finalScore,
+    });
+
+    showResultModal(true, finalScore, timeTaken);
   } else {
-    // TODO: Replace alert with a better UI element in future
-    alert("Time is up! Game Over.");
+    showResultModal(false);
   }
 }
 
-function resetState() {
-  [firstCard, secondCard] = [null, null];
-}
-
 export function resetGame() {
+  clearBoard();
   moves = 0;
   matches = 0;
   elapsedSeconds = 0;
   remainingSeconds = INITIAL_TIME;
   lockBoard = false;
   clearInterval(timerInterval);
-  updateInfo(0, 0, INITIAL_TIME);
+  initGame();
 }

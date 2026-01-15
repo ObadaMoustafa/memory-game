@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Game - Login</title>
+    <link rel="stylesheet" href="style/login.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://icons.iconarchive.com/icons/icons-land/medical/128/Body-Brain-icon.png"
+    />
+  </head>
+  <body>
+    <div class="auth-container">
+      <div class="auth-box">
+        <h1 id="auth-title">Login</h1>
+        <form id="auth-form">
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required />
+          </div>
+          <div class="input-group" id="email-group" style="display: none">
+            <label for="email">Email</label>
+            <input type="email" id="email" />
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit" id="auth-btn">Login</button>
+        </form>
+        <p>
+          <span id="toggle-text">Don't have an account?</span>
+          <a href="#" id="toggle-link">Register here</a>
+        </p>
+        <div id="error-msg" class="error"></div>
+      </div>
+    </div>
+    <script type="module" src="js/login.js"></script>
+  </body>
+</html>

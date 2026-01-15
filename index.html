@@ -5,39 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Game</title>
     <link rel="stylesheet" href="style/index.css" />
+    <link rel="stylesheet" href="style/modals.css" />
+    <link rel="stylesheet" href="style/leaderboard.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://icons.iconarchive.com/icons/icons-land/medical/128/Body-Brain-icon.png"
+    />
   </head>
   <body>
     <div id="app">
-      <!-- Game Information -->
-      <header>
+      <!-- Logo & Game Title -->
+      <header class="game-header">
+        <img
+          src="https://icons.iconarchive.com/icons/icons-land/medical/128/Body-Brain-icon.png"
+          alt="Brain Icon"
+          class="game-icon"
+        />
         <h1 class="game-title">Memory Game</h1>
-        <div id="game-info">
-          <div class="stat-box">
-            <span class="label">Moves</span>
-            <span id="moves-count" class="value">0</span>
+
+        <div class="user-menu">
+          <div id="avatar-trigger" class="avatar">
+            <img
+              src="https://icons.iconarchive.com/icons/papirus-team/papirus-status/128/avatar-default-icon.png"
+              alt="User Avatar"
+            />
           </div>
-          <div class="stat-box">
-            <span class="label">Elapsed</span>
-            <span id="elapsed-time" class="value">00:00</span>
-          </div>
-          <div class="stat-box">
-            <span class="label">Remaining</span>
-            <span id="remaining-time" class="value">10:00</span>
-          </div>
-          <div class="stat-box">
-            <span class="label">Score</span>
-            <span id="score" class="value">0</span>
-          </div>
+          <ul id="dropdown-menu" class="dropdown-list hidden">
+            <li id="profile-link">👤 Profile</li>
+            <li id="history-link">🕒 History</li>
+            <li id="logout-btn">🚪 Logout</li>
+          </ul>
         </div>
       </header>
+
+      <!-- Game Info (Moves, time, score) -->
+      <div id="game-info">
+        <div class="stat-box">
+          <span class="label">Moves</span>
+          <span id="moves-count" class="value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">Elapsed</span>
+          <span id="elapsed-time" class="value">00:00</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">Remaining</span>
+          <span id="remaining-time" class="value">00:00</span>
+        </div>
+        <div class="stat-box">
+          <span class="label">Score</span>
+          <span id="score" class="value">0</span>
+        </div>
+      </div>
 
       <!-- Game Board -->
       <main id="game-board"></main>
 
+      <!-- leaderboard -->
+      <section id="leaderboard-section">
+        <h3>🏆 Top Players</h3>
+        <table id="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </section>
+
       <!-- Restart Button -->
-      <button id="restart-btn">Restart Game</button>
+      <button type="button" id="restart-btn" class="secondary-btn">
+        Restart Game
+      </button>
     </div>
 
+    <!-- Result Modal -->
+    <div id="result-modal" class="modal hidden">
+      <div class="modal-content">
+        <img
+          id="modal-icon"
+          src="https://icons.iconarchive.com/icons/icons-land/medical/128/Body-Brain-icon.png"
+          alt="Icon"
+        />
+        <h2 id="modal-title">Congratulations!</h2>
+        <p id="modal-message">You've cleared the board!</p>
+        <div id="modal-stats" class="final-stats">
+          <p>Final Score: <span id="final-score">0</span></p>
+          <p>Time Taken: <span id="final-time">00:00</span></p>
+        </div>
+        <button type="button" id="modal-restart-btn">Play Again</button>
+      </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal hidden">
+      <div class="modal-content profile-card" id="modal-content">
+        <span class="close-modal" id="close-profile">&times;</span>
+        <h2 class="modal-title">My Profile</h2>
+
+        <form id="profile-form">
+          <div class="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              id="prof-username"
+              disabled
+              class="styled-input readonly"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="prof-email" required class="styled-input" />
+          </div>
+
+          <div class="divider-text">Preferences</div>
+
+          <div class="form-group">
+            <label>Preferred API</label>
+            <input type="text" id="pref-api" class="styled-input" />
+          </div>
+
+          <div class="color-selection">
+            <div class="form-group">
+              <label>Closed Card</label>
+              <input type="color" id="pref-color-closed" class="color-picker" />
+            </div>
+            <div class="form-group">
+              <label>Found Card</label>
+              <input type="color" id="pref-color-found" class="color-picker" />
+            </div>
+          </div>
+
+          <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" id="close-history">&times;</span>
+        <h2>Game History</h2>
+        <div class="table-wrapper">
+          <table id="history-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <script type="module" src="js/index.js"></script>
   </body>
 </html>
