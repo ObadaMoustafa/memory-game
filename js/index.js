@@ -1,9 +1,8 @@
-import { EMOJIS, TOTAL_CARDS } from './modules/constants.js';
+import { TOTAL_CARDS } from './modules/constants.js';
 import { fetchCards, getRequest, logout, shuffle } from './modules/utils.js';
 import {
   generateCard,
   renderLeaderboard,
-  hideProfileModal,
   showProfileModal,
   showHistoryModal,
 } from './modules/ui.js';
@@ -13,7 +12,7 @@ function setButtons() {
   const avatarTrigger = document.getElementById('avatar-trigger');
   const dropdownMenu = document.getElementById('dropdown-menu');
 
-  // Game Restart Buttons
+  // Game Restart Button
   document.getElementById('restart-btn').addEventListener('click', resetGame);
 
   // User Menu (Avatar & Dropdown)
@@ -40,7 +39,6 @@ function setButtons() {
 
 export async function initGame() {
   // Fetch images from API
-  // todo: uncomment on production.
   const imageUrls = await fetchCards(TOTAL_CARDS);
   if (imageUrls.length === 0) {
     alert(
@@ -50,7 +48,6 @@ export async function initGame() {
   }
 
   // Create pairs and shuffle
-  // todo: imageUrl on production.
   const gameCards = shuffle([...imageUrls, ...imageUrls]);
 
   // Render cards one by one with delay

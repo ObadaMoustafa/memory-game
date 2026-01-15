@@ -118,4 +118,8 @@ export function resetGame() {
   lockBoard = false;
   clearInterval(timerInterval);
   initGame();
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
 }
