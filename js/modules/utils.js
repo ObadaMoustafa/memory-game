@@ -1,6 +1,12 @@
 import { API_KEY, PHOTOS_URL } from './constants.js';
 import { SERVER_URL } from './constants.js';
 
+export async function isLoggedIn() {
+  // Check for authentication token because some times it's expired but still present in the localStorage
+  const isLoggedIn = await getRequest('player');
+  return isLoggedIn ? true : false;
+}
+
 export function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }

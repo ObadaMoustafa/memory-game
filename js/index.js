@@ -1,5 +1,11 @@
 import { TOTAL_CARDS } from './modules/constants.js';
-import { fetchCards, getRequest, logout, shuffle } from './modules/utils.js';
+import {
+  fetchCards,
+  getRequest,
+  isLoggedIn,
+  logout,
+  shuffle,
+} from './modules/utils.js';
 import {
   generateCard,
   renderLeaderboard,
@@ -38,6 +44,12 @@ function setButtons() {
 }
 
 export async function initGame() {
+  // I check here again because maybe the token expired while on the page.
+  if (!isLoggedIn()) {
+    window.location.replace('login.html');
+    return;
+  }
+
   // Fetch images from API
   const imageUrls = await fetchCards(TOTAL_CARDS);
   if (imageUrls.length === 0) {
@@ -64,7 +76,7 @@ export async function initGame() {
 }
 
 // Check for authentication token
-if (!localStorage.getItem('token')) {
+if (!isLoggedIn()) {
   window.location.replace('login.html');
 } else {
   setButtons();
