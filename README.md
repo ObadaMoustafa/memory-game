@@ -17,6 +17,7 @@ Een gepolijst, full-stack Memory-kaartspel gebouwd met een focus op schone archi
 
 - **Gebruikersauthenticatie:** Veilig Inloggen || Registreren systeem met JWT (JSON Web Tokens) met automatische afhandeling van sessieverloop.
 - **Accountbeheer:** Gebruikers kunnen hun profielinformatie bijwerken, inclusief de mogelijkheid om hun **E-mailadres** te wijzigen.
+- **Foutafhandeling:** Een intelligente error-bar die gebruikers informeert over specifieke problemen (bijv. verbindingsfouten) en direct suggesties geeft voor oplossingen.
 - **Responsief Ontwerp:** Volledig geoptimaliseerd voor alle schermformaten, wat zorgt voor een naadloze ervaring op mobiel, tablet en desktop.
 - **Dynamische Gameplay:** Interactief memoryboard met vloeiende animaties en "één-voor-één" kaartweergave.
 - **Gepersonaliseerde Thema's:** Gebruikers kunnen kleuren voor "Gesloten Kaart" en "Gevonden Kaart" rechtstreeks vanuit hun profiel aanpassen.
@@ -29,4 +30,4 @@ Een gepolijst, full-stack Memory-kaartspel gebouwd met een focus op schone archi
 - **Backend:** Meegeleverde kant-en-klare PHP (Symfony/Aangepaste API).
 - **Statusbeheer:** LocalStorage voor persistente gebruikerstoken, userId en gebruikersvoorkeuren.
 
-> Je kunt inloggen met de inloggegevens van de initiële leden `gebruikersnaam: Henk` - `Pw: henk` of je kunt een nieuwe gebruiker registreren.
+| Je kunt inloggen met de inloggegevens van de initiële leden `gebruikersnaam: Henk` - `Pw: henk` of je kunt een nieuwe gebruiker registreren.

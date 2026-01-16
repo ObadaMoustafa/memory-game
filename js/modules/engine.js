@@ -1,4 +1,3 @@
-import { initGame } from '../index.js';
 import { INITIAL_TIME, TOTAL_CARDS } from './constants.js';
 import {
   disableMatchedCards,
@@ -7,8 +6,49 @@ import {
   updateInfo,
   renderLeaderboard,
   clearBoard,
+  showError,
+  generateCard,
 } from './ui.js';
-import { formatTime, fetchPerform } from './utils.js';
+import {
+  formatTime,
+  fetchPerform,
+  isLoggedIn,
+  fetchCards,
+  shuffle,
+  getRequest,
+} from './utils.js';
+
+export async function initGame() {
+  // I check here again because maybe the token expired while on the page.
+  if (!isLoggedIn()) {
+    window.location.replace('login.html');
+    return;
+  }
+
+  // Fetch images from API
+  const imageUrls = await fetchCards();
+  if (imageUrls.length === 0) {
+    showError(
+      'Failed to load images. Please check your internet connection or try disabling ad-blockers.'
+    );
+    return;
+  }
+
+  // Create pairs and shuffle
+  const gameCards = shuffle([...imageUrls, ...imageUrls]);
+
+  // Render cards one by one with delay
+  for (const photo of gameCards) {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    generateCard(photo.id, photo.src, flipCard);
+  }
+
+  startTimer();
+
+  // At last to avoid showing memory game slowly.
+  const data = await getRequest('memory/top-scores');
+  renderLeaderboard(data);
+}
 
 // Game info variables
 let firstCard = null,

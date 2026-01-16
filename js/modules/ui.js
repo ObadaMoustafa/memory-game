@@ -226,3 +226,23 @@ export async function showHistoryModal() {
 export function hideHistoryModal() {
   document.getElementById('history-modal').classList.add('hidden');
 }
+
+// ******** Error handler ********* \\
+export function showError(message) {
+  const errorBar = document.getElementById('error-bar');
+  const errorMsg = document.getElementById('error-message');
+
+  errorMsg.textContent = message;
+  errorBar.classList.remove('hidden');
+
+  setTimeout(() => {
+    hideError();
+  }, 6000);
+}
+
+export function hideError() {
+  const errorBar = document.getElementById('error-bar');
+  if (errorBar) {
+    errorBar.classList.add('hidden');
+  }
+}

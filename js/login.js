@@ -1,5 +1,5 @@
 import { SERVER_URL } from './modules/constants.js';
-import { getRequest } from './modules/utils.js';
+import { getRequest, logout } from './modules/utils.js';
 
 const authForm = document.getElementById('auth-form'),
   authTitle = document.getElementById('auth-title'),
@@ -50,6 +50,7 @@ authForm.addEventListener('submit', async (e) => {
     if (isLogin) {
       const data = await response.json();
       if (!response.ok) {
+        errorMsg.textContent = 'Authentication failed. Please try again.';
         throw new Error(data.message || 'Authentication failed');
       }
 
@@ -67,6 +68,7 @@ authForm.addEventListener('submit', async (e) => {
         localStorage.setItem('preferred_api', prefs.preferred_api || '');
       } else {
         errorMsg.textContent = 'Failed to retrieve player data.';
+        logout();
         return;
       }
 
