@@ -1,10 +1,5 @@
 import { isLoggedIn, logout } from './modules/utils.js';
-import {
-  generateCard,
-  showProfileModal,
-  showHistoryModal,
-  hideError,
-} from './modules/ui.js';
+import { showProfileModal, showHistoryModal, hideError } from './modules/ui.js';
 import { resetGame, initGame } from './modules/engine.js';
 
 function setButtons() {
@@ -39,7 +34,9 @@ function setButtons() {
 }
 
 // Check for authentication token
-if (!isLoggedIn()) {
+const isLogged = await isLoggedIn();
+
+if (!isLogged) {
   window.location.replace('login.html');
 } else {
   setButtons();

@@ -29,7 +29,7 @@ export async function initGame() {
   const imageUrls = await fetchCards();
   if (imageUrls.length === 0) {
     showError(
-      'Failed to load images. Please check your internet connection or try disabling ad-blockers.'
+      'Failed to load images. Please check your internet connection or try disabling ad-blockers.',
     );
     return;
   }
@@ -37,13 +37,13 @@ export async function initGame() {
   // Create pairs and shuffle
   const gameCards = shuffle([...imageUrls, ...imageUrls]);
 
+  startTimer();
+
   // Render cards one by one with delay
   for (const photo of gameCards) {
     await new Promise((resolve) => setTimeout(resolve, 50));
     generateCard(photo.id, photo.src, flipCard);
   }
-
-  startTimer();
 
   // At last to avoid showing memory game slowly.
   const data = await getRequest('memory/top-scores');

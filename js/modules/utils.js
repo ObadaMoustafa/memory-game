@@ -32,7 +32,7 @@ export async function fetchCards() {
 
     if (!response.ok) {
       showError(
-        `Failed to fetch images from the API. REASON: ${response.statusText}`
+        `Failed to fetch images from the API. REASON: ${response.statusText}`,
       );
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -73,10 +73,10 @@ export async function getRequest(endpoint) {
 
     if (!response.ok) {
       showError(
-        `Failed to fetch data from server. REASON: ${response.statusText}`
+        `Failed to fetch data from server. REASON: ${response.statusText}`,
       );
       throw new Error(
-        `HTTP error! status: ${response.statusText} code: ${response.status}`
+        `HTTP error! status: ${response.statusText} code: ${response.status}`,
       );
     }
 
@@ -103,7 +103,7 @@ export async function fetchPerform(endpoint, method, body) {
 
     if (!response.ok) {
       showError(
-        `Failed to perform ${method} request. REASON: ${response.statusText}`
+        `Failed to perform ${method} request. REASON: ${response.statusText}`,
       );
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -118,9 +118,10 @@ export async function fetchPerform(endpoint, method, body) {
 
 export async function isLoggedIn() {
   // Check for authentication token because some times it's expired but still present in the localStorage
-  if (!localStorage.getItem('token')) return false;
-  const isLoggedIn = await getRequest('player');
-  return isLoggedIn ? true : false;
+  const token = localStorage.getItem('token');
+  if (!token) return false;
+  const alreadyLogged = await getRequest('player');
+  return alreadyLogged ? true : false;
 }
 
 export function logout() {
